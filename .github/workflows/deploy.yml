@@ -1,0 +1,72 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Deploy Telawat Landing Page to GitHub Pages
+#
+# Triggers: every push to the `main` branch.
+#
+# Steps:
+#   1. Checkout source code.
+#   2. Set up Node.js (LTS).
+#   3. Install dependencies via `npm ci` (clean, reproducible install).
+#   4. Build the Vite project with the correct base URL for GitHub Pages.
+#   5. Deploy the `dist/` folder to the `gh-pages` branch using peaceiris/actions-gh-pages.
+#
+# Required setup (one-time):
+#   - In your repo → Settings → Pages → Source: "Deploy from a branch" → Branch: gh-pages
+#   - No secrets needed; the workflow uses the built-in GITHUB_TOKEN.
+#
+# IMPORTANT: Set VITE_BASE_URL to match your repo name.
+#   Example: if your repo is `github.com/hussam/telawat-landing`, set it to `/telawat-landing/`
+#   If this is a user/org page (github.com/hussam/hussam.github.io), set it to `/`
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+
+# Allow the workflow to write to the gh-pages branch
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          # ⚠️  Change this to match YOUR repository name.
+          # Format: /YOUR_REPO_NAME/  (must start and end with /)
+          VITE_BASE_URL: /telawat-landing/
+
+          # Store URLs — override these with your actual links via GitHub Secrets
+          # or hard-code them here if they are public.
+          VITE_GOOGLE_PLAY_URL: ${{ secrets.VITE_GOOGLE_PLAY_URL }}
+          VITE_HUAWEI_URL:      ${{ secrets.VITE_HUAWEI_URL }}
+          VITE_APK_URL:         ${{ secrets.VITE_APK_URL }}
+          VITE_DONATION_URL:    ${{ secrets.VITE_DONATION_URL }}
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          # Ensures the custom 404.html is served by GitHub Pages
+          force_orphan: true

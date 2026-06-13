@@ -1,0 +1,181 @@
+@import "tailwindcss";
+
+/* ── Dark mode via class ──────────────────────────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Design tokens — ported verbatim from the Telawat Android app so the site is a
+   visual extension of the app, not a generic page.
+     · primary  = real teal scale (Teal40 #006A62 seed) — theme/Color.kt
+     · ink      = teal-tinted neutrals (NeutralBackground/Surface, TealGrey*)
+     · gold     = warm accent (used sparingly)
+     · fonts    = IBM Plex Sans Arabic (UI) + Reem Kufi (display) + Amiri Quran (verses)
+   See docs/SITE_NOTES.md for the full mapping table.
+   ──────────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Primary — teal (أخضر مزرق). 100/200/400/700/800/900/950 are real app tones;
+     the rest are linear interpolations between them. */
+  --color-primary-50:  #ebfffa;
+  --color-primary-100: #cdfff1; /* Teal95 */
+  --color-primary-200: #a0f0df; /* Teal90 */
+  --color-primary-300: #76e4d2;
+  --color-primary-400: #4dd9c6; /* Teal80 */
+  --color-primary-500: #33b4a5;
+  --color-primary-600: #1a8f83;
+  --color-primary-700: #006a62; /* Teal40 — seed + app icon bg */
+  --color-primary-800: #00504a; /* Teal30 */
+  --color-primary-900: #003733; /* Teal20 */
+  --color-primary-950: #001f1c; /* Teal10 */
+
+  /* Ink — teal-tinted neutral ramp (replaces slate for cohesion). */
+  --color-ink-50:  #fafdfb; /* NeutralBackgroundLight */
+  --color-ink-100: #f1f5f2; /* NeutralSurfaceLight */
+  --color-ink-200: #e2eae7;
+  --color-ink-300: #cde8e1; /* TealGrey90 */
+  --color-ink-400: #b1ccc6; /* TealGrey80 */
+  --color-ink-500: #7f938e;
+  --color-ink-600: #4a635f; /* TealGrey40 */
+  --color-ink-700: #324b47; /* TealGrey30 */
+  --color-ink-800: #1b3431; /* TealGrey20 */
+  --color-ink-900: #161d1b; /* NeutralSurfaceDark */
+  --color-ink-950: #0e1513; /* NeutralBackgroundDark */
+
+  /* Gold — warm accent. */
+  --color-gold-200: #fde68a;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #fbbf24;
+  --color-gold-500: #f59e0b;
+  --color-gold-600: #d97706;
+  --color-gold-700: #b45309;
+
+  /* Font families. */
+  --font-ui:      'IBM Plex Sans Arabic', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-latin:   'IBM Plex Sans', system-ui, sans-serif;
+  --font-display: 'Reem Kufi', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-quran:   'Amiri Quran', 'Amiri', Georgia, serif;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Time-of-day sky values — from identity/PrayerPalette.kt (the app's signature).
+   Kept as plain CSS variables; gradient utilities built from them below.
+   ──────────────────────────────────────────────────────────────────────────── */
+:root {
+  --sky-fajr-top: #0d1333; --sky-fajr-mid: #4a3a6b; --sky-fajr-bottom: #e7926b;
+  --sky-fajr-accent: #ffd9a8; --sky-fajr-silhouette: #0a0f26;
+
+  --sky-sunrise-top: #2e5a86; --sky-sunrise-mid: #e0986a; --sky-sunrise-bottom: #ffd27a;
+  --sky-sunrise-accent: #ffe6b0; --sky-sunrise-silhouette: #2a2331;
+
+  --sky-day-top: #1e73b0; --sky-day-mid: #53a1d8; --sky-day-bottom: #c7e6fa;
+  --sky-day-accent: #fff1c0; --sky-day-silhouette: #15324c;
+
+  --sky-asr-top: #2c6e9e; --sky-asr-mid: #74a6be; --sky-asr-bottom: #ebc987;
+  --sky-asr-accent: #ffd58a; --sky-asr-silhouette: #243a4a;
+
+  --sky-maghrib-top: #2a1a4a; --sky-maghrib-mid: #a8456e; --sky-maghrib-bottom: #f2873f;
+  --sky-maghrib-accent: #ffc18a; --sky-maghrib-silhouette: #1a1030;
+
+  --sky-isha-top: #060a20; --sky-isha-mid: #161e47; --sky-isha-bottom: #33285c;
+  --sky-isha-accent: #bfd0ff; --sky-isha-silhouette: #05071a;
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
+@layer base {
+  html { scroll-behavior: smooth; }
+
+  /* UI font per direction; Reem Kufi/Amiri Quran applied via utilities only. */
+  html[dir="rtl"] body { font-family: var(--font-ui); }
+  html[dir="ltr"] body { font-family: var(--font-latin); }
+
+  body {
+    @apply bg-ink-50 text-ink-900 dark:bg-ink-950 dark:text-ink-100;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-primary-200 text-primary-900;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-600 rounded;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Custom utilities (`@utility` so they take part in the variant system, e.g.
+   `dark:sky-fajr`). Font utilities (font-ui/font-latin/font-display/font-quran)
+   are generated automatically from the @theme `--font-*` tokens.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* Back-compat aliases for any lingering references (map to the new families). */
+@utility font-scheherazade { font-family: var(--font-display); }
+@utility font-amiri        { font-family: var(--font-quran); }
+@utility font-inter        { font-family: var(--font-latin); }
+
+/* Time-of-day sky gradients (top → mid 55% → bottom). */
+@utility sky-fajr    { background: linear-gradient(to bottom, var(--sky-fajr-top) 0%, var(--sky-fajr-mid) 55%, var(--sky-fajr-bottom) 100%); }
+@utility sky-sunrise { background: linear-gradient(to bottom, var(--sky-sunrise-top) 0%, var(--sky-sunrise-mid) 55%, var(--sky-sunrise-bottom) 100%); }
+@utility sky-day     { background: linear-gradient(to bottom, var(--sky-day-top) 0%, var(--sky-day-mid) 55%, var(--sky-day-bottom) 100%); }
+@utility sky-asr     { background: linear-gradient(to bottom, var(--sky-asr-top) 0%, var(--sky-asr-mid) 55%, var(--sky-asr-bottom) 100%); }
+@utility sky-maghrib { background: linear-gradient(to bottom, var(--sky-maghrib-top) 0%, var(--sky-maghrib-mid) 55%, var(--sky-maghrib-bottom) 100%); }
+@utility sky-isha    { background: linear-gradient(to bottom, var(--sky-isha-top) 0%, var(--sky-isha-mid) 55%, var(--sky-isha-bottom) 100%); }
+
+/* Hairline gold separator — the app's quiet warm accent. */
+@utility border-gold-line {
+  background: linear-gradient(to right, transparent, var(--color-gold-500), transparent);
+}
+
+/* Subtle 8-fold geometric pattern, very low opacity (teal on light, white on dark scenes). */
+@utility bg-islamic-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg stroke='%23006a62' stroke-width='0.7' fill='none' opacity='0.10'%3E%3Crect x='12' y='12' width='40' height='40' transform='rotate(45 32 32)'/%3E%3Crect x='12' y='12' width='40' height='40'/%3E%3C/g%3E%3C/svg%3E");
+}
+@utility bg-islamic-pattern-light {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg stroke='%23ffffff' stroke-width='0.7' fill='none' opacity='0.07'%3E%3Crect x='12' y='12' width='40' height='40' transform='rotate(45 32 32)'/%3E%3Crect x='12' y='12' width='40' height='40'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Quiet card lift on hover (no glow flashing). */
+@utility card-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  &:hover { transform: translateY(-3px); }
+}
+
+/* ── Scroll reveal (the only entrance motion) ────────────────────────────── */
+@layer components {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.07s; }
+  .reveal-delay-2 { transition-delay: 0.14s; }
+  .reveal-delay-3 { transition-delay: 0.21s; }
+  .reveal-delay-4 { transition-delay: 0.28s; }
+  .reveal-delay-5 { transition-delay: 0.35s; }
+  .reveal-delay-6 { transition-delay: 0.42s; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Reduced motion — the user is flicker sensitive. Honour the OS setting by
+   removing every transition/animation and showing reveal content immediately.
+   ──────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

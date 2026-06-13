@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap (update URL to match your GitHub Pages domain)
+# Sitemap: https://YOUR_USERNAME.github.io/telawat-landing/sitemap.xml
