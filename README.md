@@ -11,17 +11,15 @@
 
 ## Download
 
-<p>
+<p align="center">
   <a href="https://hussam002.github.io/telawat-landing/#download">
-    <img alt="Get it on Google Play" height="52" src="public/badges/google-play.svg">
+    <img alt="Get it on Google Play" height="46" src="https://img.shields.io/badge/Google_Play-Download-414141?style=for-the-badge&logo=googleplay&logoColor=white">
   </a>
-  &nbsp;
   <a href="https://hussam002.github.io/telawat-landing/#download">
-    <img alt="Explore it on AppGallery" height="52" src="public/badges/appgallery.svg">
+    <img alt="Explore it on AppGallery" height="46" src="https://img.shields.io/badge/AppGallery-Explore-C8102E?style=for-the-badge&logo=huawei&logoColor=white">
   </a>
-  &nbsp;
   <a href="https://hussam002.github.io/telawat-landing/#download">
-    <img alt="Direct APK download" height="52" src="https://img.shields.io/badge/Direct-APK-3DDC84?logo=android&logoColor=white&style=for-the-badge">
+    <img alt="Direct APK download" height="46" src="https://img.shields.io/badge/Direct-APK-3DDC84?style=for-the-badge&logo=android&logoColor=white">
   </a>
 </p>
 
@@ -55,7 +53,7 @@ telawat-landing/
 │   ├── logo.svg                   # App logo (header / footer / favicon)
 │   ├── scenes/                    # Wide mosque-city skyline silhouettes
 │   ├── badges/                    # Store badge + icon assets
-│   ├── screenshots/               # Real app screenshots (phone mockup) — optional
+│   ├── screenshots/               # featured.* — real app screenshot for the phone mockup
 │   ├── 404.html                   # SPA redirect for GitHub Pages
 │   └── robots.txt
 │
@@ -146,8 +144,8 @@ site and publishes `dist/` to the `gh-pages` branch.
 
 - **Colors / fonts / tokens:** `src/assets/main.css` (`@theme {}` block).
 - **Logo:** replace `public/logo.svg`.
-- **App screenshot:** drop a real screenshot at `public/screenshots/home.png` to fill the
-  phone mockup in the hero (a clean fallback shows until then).
+- **App screenshot:** the phone mockup in the hero uses `public/screenshots/featured.*`
+  (it auto-detects `.jpg` / `.png` / `.webp`; a clean fallback shows if none is found).
 - **Skyline scenes:** `public/scenes/`.
 - **Copy:** `src/locales/ar.ts` and `src/locales/en.ts`.
 - **Design decisions:** documented in `docs/SITE_NOTES.md`.

@@ -20,8 +20,9 @@ const skylineSrc = `${import.meta.env.BASE_URL}scenes/skyline-night.svg`
   <section
     id="download"
     ref="sectionRef"
-    class="relative isolate overflow-hidden pb-28 pt-28 text-white"
-    style="background: linear-gradient(to bottom, #2a1a4a 0%, #8a3f6b 45%, #f0894a 100%)"
+    class="relative isolate overflow-hidden pb-28 pt-28 text-white
+           bg-[linear-gradient(to_bottom,#fafdfb_0%,#2a1a4a_15%,#8a3f6b_52%,#f0894a_100%)]
+           dark:bg-[linear-gradient(to_bottom,#0e1513_0%,#2a1a4a_15%,#8a3f6b_52%,#f0894a_100%)]"
     aria-labelledby="download-heading"
   >
     <!-- Soft sun glow low on the horizon -->
@@ -30,8 +31,9 @@ const skylineSrc = `${import.meta.env.BASE_URL}scenes/skyline-night.svg`
       style="background: radial-gradient(60% 70% at 32% 100%, rgba(255,224,150,0.55) 0%, transparent 60%)"
       aria-hidden="true"
     />
-    <!-- Top fade into the neutral page (kills the hard seam in light mode) -->
-    <div class="pointer-events-none absolute inset-x-0 top-0 z-0 h-28 bg-gradient-to-b from-ink-50 to-transparent dark:from-ink-950" aria-hidden="true" />
+    <!-- No top overlay: the section's own background gradient now starts at the
+         page colour (ink-50 / ink-950) and eases into the dusk, so the seam with
+         the section above is part of one continuous gradient — no banding. -->
 
     <!-- Wide skyline anchored at the bottom -->
     <img

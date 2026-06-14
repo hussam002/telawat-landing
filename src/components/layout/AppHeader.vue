@@ -48,13 +48,19 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         class="group flex items-center gap-2.5"
         :aria-label="t('hero.appName')"
       >
-        <img
+        <!-- The supplied logo is a white mark on transparent — seat it on a teal
+             brand tile so it stays visible on the light header bar (light mode). -->
+        <span
           v-if="!logoFailed"
-          :src="logoSrc"
-          alt=""
-          class="size-9 shrink-0 rounded-xl object-contain transition-transform duration-300 group-hover:scale-105"
-          @error="logoFailed = true"
-        />
+          class="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-primary-600 to-primary-800 p-1.5 shadow-sm ring-1 ring-white/10 transition-transform duration-300 group-hover:scale-105"
+        >
+          <img
+            :src="logoSrc"
+            alt=""
+            class="size-full object-contain"
+            @error="logoFailed = true"
+          />
+        </span>
         <!-- Fallback: teal tile + gold 8-point star -->
         <span
           v-else

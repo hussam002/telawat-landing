@@ -6,15 +6,27 @@
  * vector skyline (public/scenes/skyline-night.svg) — no heavy raster. Text is
  * white-on-scene in both themes; the unified StoreBadges sit on top.
  */
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import StoreBadges from '@/components/ui/StoreBadges.vue'
 
 const { t } = useI18n()
 
 const skylineSrc = `${import.meta.env.BASE_URL}scenes/skyline-night.svg`
-const screenshotSrc = `${import.meta.env.BASE_URL}screenshots/home.png`
+
+// Primary app screenshot for the phone mockup. Tries the supplied file first,
+// then common extensions, before falling back to the synthetic UI preview — so
+// dropping in screenshots/featured.{jpg,png,webp} (or home.png) just works.
+const shotCandidates = ['featured.jpg', 'featured.png', 'featured.webp', 'home.png']
+const shotIdx = ref(0)
 const shotFailed = ref(false)
+const screenshotSrc = computed(
+  () => `${import.meta.env.BASE_URL}screenshots/${shotCandidates[shotIdx.value]}`,
+)
+function onShotError() {
+  if (shotIdx.value < shotCandidates.length - 1) shotIdx.value += 1
+  else shotFailed.value = true
+}
 
 const trust = [{ key: 'hero.free' }, { key: 'hero.noAds' }, { key: 'hero.offline' }]
 
@@ -138,7 +150,7 @@ const stars = [
                 :src="screenshotSrc"
                 alt=""
                 class="block aspect-[9/19] w-full object-cover"
-                @error="shotFailed = true"
+                @error="onShotError"
               />
 
               <div v-else class="sky-isha flex aspect-[9/19] w-full flex-col p-5 pt-9 text-white">
