@@ -11,15 +11,15 @@
 
 ## Download
 
-<p align="center">
-  <a href="https://hussam002.github.io/telawat-landing/#download">
-    <img alt="Get it on Google Play" height="46" src="https://img.shields.io/badge/Google_Play-Download-414141?style=for-the-badge&logo=googleplay&logoColor=white">
+<p align="left">
+  <a href="https://play.google.com/store/apps/details?id=com.telawat.app">
+    <img alt="Get it on Google Play" height="54" src="public/badges/get_it_on_google_play.png">
   </a>
   <a href="https://hussam002.github.io/telawat-landing/#download">
-    <img alt="Explore it on AppGallery" height="46" src="https://img.shields.io/badge/AppGallery-Explore-C8102E?style=for-the-badge&logo=huawei&logoColor=white">
+    <img alt="Explore it on AppGallery" height="54" src="public/badges/exploare_it_on_huawei-appgallery.png">
   </a>
   <a href="https://hussam002.github.io/telawat-landing/#download">
-    <img alt="Direct APK download" height="46" src="https://img.shields.io/badge/Direct-APK-3DDC84?style=for-the-badge&logo=android&logoColor=white">
+    <img alt="Direct APK download" height="54" src="public/badges/direct_install.png">
   </a>
 </p>
 
