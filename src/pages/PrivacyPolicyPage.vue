@@ -9,8 +9,8 @@ import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n()
 
 /** Update whenever the policy content changes. */
-const LAST_UPDATED_AR = '١ يناير ٢٠٢٥'
-const LAST_UPDATED_EN = 'January 1, 2025'
+const LAST_UPDATED_AR = '١ يونيو ٢٠٢٦'
+const LAST_UPDATED_EN = 'June 1, 2026'
 const lastUpdated = locale.value === 'ar' ? LAST_UPDATED_AR : LAST_UPDATED_EN
 
 // From AppInfo.kt — keep in sync with the app.

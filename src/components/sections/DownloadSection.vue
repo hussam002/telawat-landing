@@ -2,8 +2,13 @@
 /**
  * DownloadSection.vue — the dusk station of the page: a Maghrib sunset sky + a
  * soft sun glow + the wide mosque-city skyline (light vector), with the single
- * StoreBadges component (no duplicated buttons). A top fade eases the saturated
- * sky out of the neutral page so there is no hard seam in light mode.
+ * StoreBadges component (no duplicated buttons).
+ *
+ * The light page → dusk panel transition is handled by an ornamental pointed-arch
+ * arcade along the top (`.arcade-top`, page-coloured): its solid crown is the same
+ * colour as the page (seamless), and the dusk sky shows through the arches — so the
+ * seam reads as "the sunset seen through a mosque arcade", not a hard colour jump.
+ * A faint 8-fold geometric pattern adds quiet richness over the panel.
  */
 import { useI18n } from 'vue-i18n'
 import StoreBadges from '@/components/ui/StoreBadges.vue'
@@ -20,20 +25,23 @@ const skylineSrc = `${import.meta.env.BASE_URL}scenes/skyline-night.svg`
   <section
     id="download"
     ref="sectionRef"
-    class="relative isolate overflow-hidden pb-28 pt-28 text-white
-           bg-[linear-gradient(to_bottom,#fafdfb_0%,#2a1a4a_15%,#8a3f6b_52%,#f0894a_100%)]
-           dark:bg-[linear-gradient(to_bottom,#0e1513_0%,#2a1a4a_15%,#8a3f6b_52%,#f0894a_100%)]"
+    class="relative isolate overflow-hidden pb-28 pt-32 text-white"
+    style="background: linear-gradient(to bottom, #2a1a4a 0%, #8a3f6b 52%, #f0894a 100%)"
     aria-labelledby="download-heading"
   >
+    <!-- Faint 8-fold geometric texture over the dusk -->
+    <div class="bg-islamic-pattern-light pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
+
     <!-- Soft sun glow low on the horizon -->
     <div
       class="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-2/3"
       style="background: radial-gradient(60% 70% at 32% 100%, rgba(255,224,150,0.55) 0%, transparent 60%)"
       aria-hidden="true"
     />
-    <!-- No top overlay: the section's own background gradient now starts at the
-         page colour (ink-50 / ink-950) and eases into the dusk, so the seam with
-         the section above is part of one continuous gradient — no banding. -->
+
+    <!-- Ornamental arcade crown: page-coloured arches, dusk sky shows through the
+         openings — the seamless, intentional transition from the light page. -->
+    <div class="arcade-top pointer-events-none absolute inset-x-0 top-0 z-0 h-14 bg-ink-50 dark:bg-ink-950" aria-hidden="true" />
 
     <!-- Wide skyline anchored at the bottom -->
     <img

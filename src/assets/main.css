@@ -135,6 +135,21 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg stroke='%23ffffff' stroke-width='0.7' fill='none' opacity='0.07'%3E%3Crect x='12' y='12' width='40' height='40' transform='rotate(45 32 32)'/%3E%3Crect x='12' y='12' width='40' height='40'/%3E%3C/g%3E%3C/svg%3E");
 }
 
+/* Ornamental top edge: a tiling pointed-arch arcade used as an alpha mask, so the
+   element's own (theme-aware) background becomes a row of arches and the panel's
+   dusk sky shows through the openings. Turns the light-page → dusk-panel seam into
+   an intentional "sky seen through a mosque arcade" frame instead of a hard line. */
+@utility arcade-top {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='56' viewBox='0 0 84 56'%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M0 0H84V56H0ZM4 56V36Q4 18 42 13Q80 18 80 36V56Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='56' viewBox='0 0 84 56'%3E%3Cpath fill='%23000' fill-rule='evenodd' d='M0 0H84V56H0ZM4 56V36Q4 18 42 13Q80 18 80 36V56Z'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 84px 100%;
+  mask-size: 84px 100%;
+  -webkit-mask-position: top center;
+  mask-position: top center;
+}
+
 /* Quiet card lift on hover (no glow flashing). */
 @utility card-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
